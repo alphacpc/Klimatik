@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, ImageBackground, ScrollView, FlatList} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, ActivityIndicator, ImageBackground, ScrollView, FlatList} from 'react-native';
 import imgIcon from './../assets/Images/Icon.png';
 import Icon from 'react-native-vector-icons/Feather'
 import axios from 'axios';
+
+import ImgLoader from './../assets/Images/loader.gif';
 
 const HomeScreen = ({navigation}) => {
 
@@ -52,7 +54,10 @@ const HomeScreen = ({navigation}) => {
     console.log(datasCountry)
     console.log(datasCountry.current)
     if(datasCountry.length == 0){
-        return <Text>Encours de chargement</Text>
+        return <View style={{flex:1, display: 'flex',backgroundColor:'red' ,height: Dimensions.get('screen').height, alignItems:'center'}}>
+                    {/* <ImageBackground source={ImgLoader} resizeMode="cover" style={{flex: 1}}/> */}
+                    <ActivityIndicator size={100} color="orangered"  />
+        </View>
     }
 
     return (
