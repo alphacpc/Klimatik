@@ -13,7 +13,7 @@ const BottomNavigation = () => {
     
     return (
         <Tab.Navigator screenOptions={{
-            tabBarStyle:{backgroundColor:'#fff', elevation:0, borderTopWidth:0},           
+            tabBarStyle:{backgroundColor:'#002366', elevation:0, borderTopWidth:0},           
             tabBarShowLabel: false,
             tabBarActiveTintColor: 'orangered',
             tabBarInactiveTintColor: '#DDDDDD',

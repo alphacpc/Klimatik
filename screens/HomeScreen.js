@@ -1,42 +1,48 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, ActivityIndicator, ImageBackground, ScrollView, FlatList} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, ActivityIndicator, Image ,ImageBackground, ScrollView, FlatList} from 'react-native';
 import imgIcon from './../assets/Images/Icon.png';
 import Icon from 'react-native-vector-icons/Feather'
 import axios from 'axios';
-
-import ImgLoader from './../assets/Images/loader.gif';
+import KEY_API from './../constants/Secret';
 
 const HomeScreen = ({navigation}) => {
 
-    const numTemps = [1,2,3,4,5];
     const [datasCountry, setDatasCountry] = useState([]);
-    const url = 'https://api.openweathermap.org/data/2.5/onecall?lat=14.732386&units=metric&lon=-17.432757&lang=fr&appid=60f53a068c9a251eb46dcca88b6b407c';
 
-    let days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    let days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
     
     const Hourly = ({item}) => {
+
+        const ImageUrl = `https://openweathermap.org/img/wn/${item.weather[0].icon}.png`;
+
         return  <View style={HomeStyle.ThisDayTemp}>
                     <Text style={HomeStyle.ThisDayTempTime}>{new Date(item.dt *1000).getHours()}H</Text>
-                    <Icon name="sun" color='orangered' size={30}/>
+                    <Image  source={{uri: ImageUrl}} style={{width: 40, height: 40}}/>
                     <Text style={HomeStyle.ThisDayTempValue}>{Math.round(item.temp)}°</Text>
                 </View>
     }
 
     const Daily = ({item}) => {
+
+        const ImageUrl = `https://openweathermap.org/img/wn/${item.weather[0].icon}.png`;
+
         return  <View style={HomeStyle.NextDayItem}>
                     <Text style={HomeStyle.NextDayItemText}>{days[new Date(item.dt * 1000).getDay()]}  </Text>
-                    <Icon name='sun' size={40} color='orangered'/>
+                    <Image  source={{uri: ImageUrl}} style={{width: 60, height: 60}}/>
+                    
                     <View style={HomeStyle.NextDayItemTemps}>
-                        <Text style={HomeStyle.NextDayItemText,{color:'grey',marginLeft:10}}>{Math.round(item.temp.min)}°</Text>
+                        <Text style={HomeStyle.NextDayItemText, {color:'grey',marginRight:10}}>{Math.round(item.temp.min)}°</Text>
                         <Text style={HomeStyle.NextDayItemText}>{Math.round(item.temp.eve)}°</Text>
-                        <Text style={HomeStyle.NextDayItemText,{color:'grey',marginLeft:10}}>{Math.round(item.temp.max)}°</Text>
+                        <Text style={HomeStyle.NextDayItemText, {color:'grey',marginLeft:10}}>{Math.round(item.temp.max)}°</Text>
                     </View>
+
+                    <Icon name="arrow-right-circle" style={{color:'orangered'}} size={20}/>
                 </View>                    
     }
 
     const getDatas = async () => {
         try{
-            const response = await axios.get(url);
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=14.732386&units=metric&lon=-17.432757&lang=fr&appid=${KEY_API}`);
             const myData = await response.data;
             console.log(myData.current.temp)
             console.log(myData.current.weather[0].description)
@@ -54,19 +60,19 @@ const HomeScreen = ({navigation}) => {
     console.log(datasCountry)
     console.log(datasCountry.current)
     if(datasCountry.length == 0){
-        return <View style={{flex:1, display: 'flex',backgroundColor:'red' ,height: Dimensions.get('screen').height, alignItems:'center'}}>
-                    {/* <ImageBackground source={ImgLoader} resizeMode="cover" style={{flex: 1}}/> */}
-                    <ActivityIndicator size={100} color="orangered"  />
-        </View>
+        return <SafeAreaView style={HomeStyle.LoaderSafeView}>
+                    <ActivityIndicator size={50} color="orangered"  />
+        </SafeAreaView>
     }
 
+    const colors = ['#022E57', '#293B5F','#002366']
+
     return (
-        
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:'#ffffff'}} >
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: '#002366'}} >
             <SafeAreaView style={HomeStyle.PanelHead}>
                 <View style={HomeStyle.PanelHeadItem}>
                     <Text style={HomeStyle.CityName}>Dakar</Text>
-                    <Text style={HomeStyle.CurrentTemp}>{Math.round(datasCountry.current.temp)}</Text>
+                    <Text style={HomeStyle.CurrentTemp}>{Math.round(datasCountry.current.temp)}°</Text>
                     <Text style={HomeStyle.CurrentWeather}>{datasCountry.current.weather[0].description}</Text>
                 </View>
 
@@ -89,7 +95,7 @@ const HomeScreen = ({navigation}) => {
 
 
                 <View style={HomeStyle.ThisDayBox}>
-                    <Text style={HomeStyle.ThisDayText}>{days[new Date(datasCountry.current.dt*1000).getDay()]}</Text>
+                    <Text style={HomeStyle.ThisDayText}>Aujourd'hui</Text>
                     
                     <View style={HomeStyle.ThisDayTemps}>
 
@@ -100,14 +106,6 @@ const HomeScreen = ({navigation}) => {
                         keyExtractor = {item => `${item.id}`}
                         renderItem ={ ({item}) => <Hourly item={item} />}
                     />
-
-                    {/* {numTemps.map((value, index) => 
-                            <View key={index} style={HomeStyle.ThisDayTemp}>
-                                <Text style={HomeStyle.ThisDayTempTime}>12H</Text>
-                                <Icon name="sun" color='orangered' size={30}/>
-                                <Text style={HomeStyle.ThisDayTempValue}>19°</Text>
-                            </View>
-                    ) } */}
                     </View>
 
                 </View>
@@ -116,22 +114,9 @@ const HomeScreen = ({navigation}) => {
                     <FlatList
                         data={datasCountry.daily}
                         showsVerticalScrollIndicator = {false}
-                        // showsHorizontalScrollIndicator = {false}
                         keyExtractor = {item => `${item.id}`}
                         renderItem ={ ({item}) => <Daily item={item} />}
                     />
-                    {/* {numTemps.map((value,index) => <View style={HomeStyle.NextDayItem}>
-                            <Text style={HomeStyle.NextDayItemText}>Vendredi</Text>
-                            <Icon name='sun' size={40} color='orangered'/>
-                            <View style={HomeStyle.NextDayItemTemps}>
-                                <Text style={HomeStyle.NextDayItemText,{color:'grey',marginLeft:10}}>14°</Text>
-                                <Text style={HomeStyle.NextDayItemText}>19°</Text>
-                                <Text style={HomeStyle.NextDayItemText,{color:'grey',marginLeft:10}}>14°</Text>
-                            </View>
-                        </View>                    
-                    
-                    )} */}
-
 
                 </View>
 
@@ -146,7 +131,16 @@ export default HomeScreen;
 
 
 const HomeStyle = StyleSheet.create({
-    PanelHead:{
+    LoaderSafeView:{
+        backgroundColor: '#002366',
+        height: Dimensions.get('screen').height,
+        display:'flex',
+        justifyContent:'center'
+    }
+
+
+
+    ,PanelHead:{
         display: 'flex',
         flexDirection:'row',
         width: Dimensions.get('screen').width,
@@ -164,16 +158,20 @@ const HomeStyle = StyleSheet.create({
         textTransform:'capitalize',
         letterSpacing: 1,
         paddingTop: 40,
+        color:'white'
     },
     CurrentTemp:{
         fontSize: 80,
         fontWeight:'normal',
         marginVertical: 0,
+        color:'white'
+
     },
     CurrentWeather:{
         fontSize: 18,
         backgroundColor: 'orangered',
         color: '#fff',
+        textTransform:'capitalize',
         padding: 5,
         letterSpacing: 1,
         borderRadius: 4,
@@ -196,6 +194,8 @@ const HomeStyle = StyleSheet.create({
         alignItems:'center',
         fontSize: 16,
         letterSpacing: 1,
+        color:'white'
+
     },
 
 
@@ -206,7 +206,8 @@ const HomeStyle = StyleSheet.create({
         paddingBottom: 40,
     },
     TimeText:{
-        letterSpacing: 1
+        letterSpacing: 1,
+        color:'white'
     },
 
     
@@ -216,27 +217,38 @@ const HomeStyle = StyleSheet.create({
     },
     ThisDayText:{
         color: 'orangered',
-        fontSize: 24,
+        fontSize: 22,
         marginBottom: 0,
     },
     ThisDayTemps:{
         display:'flex',
         flexDirection:'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 20
     },
     ThisDayTemp:{
-        width: Dimensions.get('screen').width / 7.4,
-        textAlign:'center'
+        width: Dimensions.get('screen').width / 7,
+        marginRight: 20,
+        backgroundColor:'orangered',
+        borderRadius: 8,
+        display:'flex',
+        flexDirection:'column',
+        alignContent:'center',
+        justifyContent:'center'
     },
     ThisDayTempTime:{
         fontSize: 18,
         paddingVertical: 10,
         letterSpacing: 2,
+        color:'white',
+        textAlign:'center'
     },
     ThisDayTempValue:{
         fontSize: 18,
         paddingVertical: 10,
         letterSpacing: 2,
+        color:'white',
+        textAlign:'center'
     },
 
 
@@ -260,6 +272,7 @@ const HomeStyle = StyleSheet.create({
     NextDayItemText:{
         letterSpacing: 1,
         fontSize: 16,
+        color:'#ffffff'
     }
 
 })
