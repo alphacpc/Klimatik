@@ -10,7 +10,7 @@ const ResultScreen = ({navigation}) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.ScrollContainer}>
             <View style={styles.forHeader} >
-                    <Icon   name="sun"
+                    <Icon   name="arrow-left"
                             color='#fff' 
                             size={28}
                             onPress={() => navigation.goBack()}/>

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     SingleCountryView:{
-        backgroundColor: '#ffd900',
+        backgroundColor: '#F8F8F8',
         width: Dimensions.get('screen').width / 2.2,
         marginBottom: 20,
         padding: 10,
