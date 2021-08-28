@@ -13,7 +13,7 @@ const SearchScreen = ({navigation}) => {
             
             <View style={styles.ViewInputText}>
                 <Icon   name="search" size={20} 
-                        color='orangered'
+                        color='orange'
                         onPress={()=> navigation.navigate('ResultScreen')}/>
                 <TextInput style={styles.ForTextInput} placeholder="Entrer une ville ..."/>
             </View>
@@ -48,11 +48,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 10,
         paddingVertical: 40,
-        backgroundColor: '#fff',      
+        backgroundColor: '#002366',      
     },
     ViewInputText:{
         display: 'flex',
         flexDirection: 'row',
+        backgroundColor: '#fff',
         borderRadius: 40,
         padding: 10,
         paddingHorizontal: 20,
@@ -75,13 +76,11 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     SingleCountryView:{
-        // backgroundColor: 'pink',
+        backgroundColor: '#ffd900',
         width: Dimensions.get('screen').width / 2.2,
         marginBottom: 20,
         padding: 10,
-        borderColor:'orangered',
-        borderWidth:.1,
-        borderRadius: 8
+        borderRadius: 4
     },
 
     Box1:{
@@ -99,14 +98,16 @@ const styles = StyleSheet.create({
     TextIcon:{
         display:'flex',
         flexDirection:'row',
-
     },
 
     TextTemp:{
         fontSize: 44,
+        color:'#000'
     },
     TextCity:{
         fontSize: 16,
+        color:'#000'
+
     },
     TextCountry:{
         color:'grey'

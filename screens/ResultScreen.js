@@ -10,10 +10,11 @@ const ResultScreen = ({navigation}) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.ScrollContainer}>
             <View style={styles.forHeader} >
-                    <Icon   name="sun" 
+                    <Icon   name="sun"
+                            color='#fff' 
                             size={28}
                             onPress={() => navigation.goBack()}/>
-                    <Text> Dakar, Senegal(SN) </Text>
+                    <Text style={styles.TextHeader}> Dakar, Senegal(SN) </Text>
             </View>
 
             <View style={styles.SafeInfos}>
@@ -84,17 +85,23 @@ export default ResultScreen;
 const styles = StyleSheet.create({
     ScrollContainer:{
         paddingHorizontal: 10,
-        paddingVertical: 20
+        paddingVertical: 20,
+        backgroundColor:'#002366'
     },
     forHeader:{
         display:'flex',
         flexDirection:'row',
         alignItems:'center'
     },
+    TextHeader:{
+        color:'#fff',
+        marginLeft: 10,
+    },
 
     SafeInfos:{
         width: '100%',
         textAlign:'center',
+        color:'#fff'
     },
 
     TreeItem:{
@@ -108,18 +115,23 @@ const styles = StyleSheet.create({
         alignItems:'center',
         fontSize: 16,
         letterSpacing: 1,
+        color:'#fff'
+
     },
     Temp:{
         fontStyle:'italic',
         fontSize: 80,
         textAlign:'center',
         letterSpacing: 2,
+        color:'#fff'
     },
     Description:{
         textAlign:'center',
         fontSize:18,
         marginTop: 20,
-        letterSpacing:1
+        letterSpacing:1,
+        color:'#fff'
+
     },
 
 
@@ -138,18 +150,24 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     ThisDayTemp:{
-        width: Dimensions.get('screen').width / 7.4,
-        textAlign:'center'
+        width: Dimensions.get('screen').width / 7,
+        textAlign:'center',
+        backgroundColor:'orangered',
+        borderRadius:4,
     },
     ThisDayTempTime:{
         fontSize: 18,
         paddingVertical: 10,
         letterSpacing: 2,
+        color:'#fff',
+        textAlign:'center'
     },
     ThisDayTempValue:{
         fontSize: 18,
         paddingVertical: 10,
         letterSpacing: 2,
+        color:'#fff',
+        textAlign:'center'
     },
 
 
@@ -173,6 +191,8 @@ const styles = StyleSheet.create({
     NextDayItemText:{
         letterSpacing: 1,
         fontSize: 16,
+        color:'#fff',
+        
     },
 
 
@@ -192,6 +212,7 @@ const styles = StyleSheet.create({
     },
     ViewDetailItemTitle:{
         fontSize: 16,
+        color:'#fff',
     },
     ViewDetailItemValue:{
         color: 'grey',
