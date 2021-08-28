@@ -42,6 +42,14 @@ export default AboutScreen;
 
 
 const styles = StyleSheet.create({
+    ScrollContainer:{
+        backgroundColor:'#002366',
+        paddingHorizontal: 10,
+
+
+    },
+        
+    
     userContainer:{
         width: Dimensions.get("screen").width,
         justifyContent: "center",
@@ -53,23 +61,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         letterSpacing: 1,
         marginBottom: 10,
-        textTransform: "uppercase"
+        textTransform: "uppercase",
+        color:'#fff'
     },
     job_country:{
         fontSize:20,
         letterSpacing: 2,
         marginBottom: 10,
+        color:'#fff'
     },
-    ScrollContainer:{
-        backgroundColor:"#fff",
-        paddingHorizontal: 10,
-    },
+
 
     description:{
         fontSize: 14,
         textAlign: "center",
         letterSpacing:1,
         marginBottom:20,
+        color:'#fff'
     },
     textHobbies:{
         fontWeight:"bold", 

@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 
+
 import AboutScreen from './../screens/AboutScreen';
 import HomeScreen from './../screens/HomeScreen';
 import SearchScreen from './../screens/SearchScreen';
