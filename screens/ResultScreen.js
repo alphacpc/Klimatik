@@ -1,11 +1,37 @@
-import React from 'react';
-import { View, Text, ScrollView, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, ScrollView, Dimensions, SafeAreaView, StyleSheet, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'
+import Key_API from '../constants/Secret';
+import axios from 'axios';
 
-const ResultScreen = ({navigation}) => {
+
+const ResultScreen = ({navigation,route}) => {
     
     const numTemps = [1,2,3,4,5];
+    const [datas, setDatas] = useState({})
+    const { country } = route.params;
+    
+    //console.log(getData)
 
+    const getDataCountry = async pays => {
+        const getData = await axios.get(`https://api.openweathermap.org/data/2.5/find?q=${pays}&lang=fr&units=metric&appid=${Key_API}`);
+        const response = await getData.data;
+        setDatas(response);
+    }
+
+    useEffect(() => {
+        getDataCountry(country)
+    }, [])
+
+
+    const { name } = datas;
+    const ImageUrl = `https://openweathermap.org/img/wn/${datas.list[0]["weather"][0]["icon"]}.png`;
+
+    console.log(datas.list[0]["weather"][0]["icon"])
+
+    console.log(ImageUrl)
+
+    console.log("My name", name)
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.ScrollContainer}>
@@ -14,12 +40,14 @@ const ResultScreen = ({navigation}) => {
                             color='#fff' 
                             size={28}
                             onPress={() => navigation.goBack()}/>
-                    <Text style={styles.TextHeader}> Dakar, Senegal(SN) </Text>
+                    <Text style={styles.TextHeader}> {`${country} (${datas.list[0]["sys"].country})`} </Text>
             </View>
 
             <View style={styles.SafeInfos}>
-                <View style={{marginTop:20}}><Icon name="sun" color="orangered" style={{textAlign: 'center'}} size={120}/></View>
-                <Text style={styles.Description}>Ensoleillé</Text>
+                <View style={{marginTop:20}}>
+                    <Image source={{uri: ImageUrl}} style={{width: 200, height: 200}}/>    
+                </View>
+                <Text style={styles.Description}>{datas.list[0]["weather"][0]["description"]}</Text>
                 <Text style={styles.Temp}>20°C</Text>
 
                 <View style={styles.TreeItem}>

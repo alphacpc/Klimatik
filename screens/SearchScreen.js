@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { View, StyleSheet ,Text, SafeAreaView, TextInput , ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -6,7 +6,66 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const SearchScreen = ({navigation}) => {
 
-    const countryList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+    const countryList = [1,2,3,4,5,6,7,8]
+    
+
+    
+
+    const shortList = [
+        {
+            name:"Sao Paulo",
+            code:"BR",
+            lat: -23.533773,
+            log: -46.625290,
+        },  
+        {
+            name:"New York",
+            code:"USA",
+            lat: 40.713051,
+            log: -74.007233,
+        },
+        {
+            name:"Lagos",
+            code:"NG",
+            lat: 6.451140,
+            log: 3.388400,
+        },
+        {
+            name:"Londres",
+            code:"UK",
+            lat: 51.507351,
+            log: -0.127758,
+        },
+        {
+            name:"Moscou",
+            code:"RU",
+            lat: 55.644466,
+            log: 37.395744,
+        },
+        {
+            name:"New Dehli",
+            code:"IN",
+            lat: 28.644800,
+            log: 77.216721,
+        },
+        {
+            name:"Los Angeles",
+            code:"USA",
+            lat: 34.052235,
+            log: -118.243683,
+        },
+        {
+            name:"Seoul",
+            code:"KR",
+            lat: 37.532600,
+            log: 127.024612,
+        },
+    ] 
+    const [valInput, setValInput] = useState("");
+
+   
+
+    //console.log(valInput)
 
     return (
         <ScrollView style={styles.ScrollContainer} showsVerticalScrollIndicator={false}>
@@ -14,8 +73,8 @@ const SearchScreen = ({navigation}) => {
             <View style={styles.ViewInputText}>
                 <Icon   name="search" size={20} 
                         color='orange'
-                        onPress={()=> navigation.navigate('ResultScreen')}/>
-                <TextInput style={styles.ForTextInput} placeholder="Entrer une ville ..."/>
+                        onPress={()=> navigation.navigate('ResultScreen',{country:valInput})}/>
+                <TextInput style={styles.ForTextInput} value={valInput} onChangeText={setValInput} placeholder="Entrer une ville ..."/>
             </View>
 
 
