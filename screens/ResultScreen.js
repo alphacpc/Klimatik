@@ -25,7 +25,7 @@ const ResultScreen = ({navigation,route}) => {
 
 
     const { name } = datas;
-    const ImageUrl = `https://openweathermap.org/img/wn/${datas.list[0]["weather"][0]["icon"]}.png`;
+    const ImageUrl = (datas.length > 0) ? `https://openweathermap.org/img/wn/${datas.list[0]["weather"][0]["icon"]}.png` : null;
 
     console.log(datas.list[0]["weather"][0]["icon"])
 
