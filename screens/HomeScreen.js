@@ -36,7 +36,7 @@ const HomeScreen = ({navigation}) => {
                         <Text style={HomeStyle.NextDayItemText, {color:'grey',marginLeft:10}}>{Math.round(item.temp.max)}°</Text>
                     </View>
 
-                    <Icon name="arrow-right-circle" style={{color:'orangered'}} size={20}/>
+                    <Icon name="arrow-right-circle" onPress={()=> { navigation.navigate("DailyScreen", item) }} style={{color:'orangered'}} size={20}/>
                 </View>                    
     }
 
