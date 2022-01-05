@@ -15,9 +15,9 @@ const DailyScreen = ({navigation, route}) => {
     console.log(route.params);
 
     const Temperature = ({item}) => {
-        return <View>
-            <Text>Hello</Text>
-            <Text>{item}</Text>
+        return <View style={styles.viewTemp}>
+            <Text style={styles.textValue}>{Math.round(temp[item])}</Text>
+            <Text style={styles.textLabel}>{item}</Text>
         </View>
     }
 
@@ -63,13 +63,13 @@ const DailyScreen = ({navigation, route}) => {
                 <View>
                     <Text>Températures</Text>
                     <FlatList
-                        data={temp}
+                        data={Object.keys(temp)}
                         horizontal
                         showsHorizontalScrollIndicator = {false}
                         keyExtractor = {item => `${item[0]}`}
                         renderItem ={ ({item}) => <Temperature item={item} />}
+                        style={{ display:"flex",flexDirection:"row", paddingHorizontal: 10,paddingVertical:20}}
                     />
-                    <Text>Doudou</Text>
                 </View>
 
 
@@ -127,6 +127,28 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:"column",
         alignItems:"center"
+    },
+
+
+
+    viewTemp:{
+        display:"flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginRight:20
+    },
+    textValue:{
+        backgroundColor:'#fff',
+        fontSize:20,
+        borderRadius:20,
+        color: 'orangered',
+        marginBottom: 10,
+        padding: 10,
+        fontWeight: 'bold'
+    },
+    textLabel:{
+        color: "#fff",
+        fontSize: 20,
     }
 
 })
