@@ -12,7 +12,14 @@ const DailyScreen = ({navigation, route}) => {
     const {humidity, moonrise, moonset, pressure, sunrise, sunset, temp, weather ,wind_deg, wind_gust, wind_speed}  = route.params;
     const ImageUrl = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
 
-    console.log(route.params)
+    console.log(route.params);
+
+    const Temperature = ({item}) => {
+        return <View>
+            <Text>Hello</Text>
+            <Text>{item}</Text>
+        </View>
+    }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: "#002366"}}>
@@ -38,20 +45,31 @@ const DailyScreen = ({navigation, route}) => {
             <SafeAreaView style={styles.viewBody}>
 
                 <View style={styles.viewSunMoon}>
-                    <View style={styles.viewSun}>
-                        <Icon name="sunrise" size={35} color="#fff"/>
-                        <Text style={{color:"#fff", fontWeight: 'bold', marginBottom:10}}>{new Date(sunrise * 1000).toLocaleTimeString()}</Text>
+                    <View style={styles.simpleView}>
+                        <Icon name="sunrise" size={35} color="orangered"/>
+                        <Text style={{color:"orangered",letterSpacing:1.8, marginTop:10}}>{new Date(sunrise * 1000).toLocaleTimeString()}</Text>
+                    </View>
+                    <View style={styles.simpleView}>
                         <Icon name="sunset" size={35} color="orangered"/>
-                        <Text style={{color:"orangered", fontWeight: 'bold'}}>{new Date(sunset * 1000).toLocaleTimeString()}</Text>
-                    </View>
-
-                    <View style={styles.viewMoon}>
-                        <Icon name="moon" size={35} color="#fff"/>
-                        <Text style={{color:"#fff", fontWeight: 'bold', marginBottom:10}}>{new Date(moonrise * 1000).toLocaleTimeString()}</Text>
+                        <Text style={{color:"orangered", letterSpacing:1.8,marginTop:10}}>{new Date(sunset * 1000).toLocaleTimeString()}</Text>
+                   </View>
+                   <View style={styles.simpleView}>
                         <Icon name="moon" size={35} color="orangered"/>
-                        <Text style={{color:"orangered", fontWeight: 'bold'}}>{new Date(moonset * 1000).toLocaleTimeString()}</Text>
+                        <Text style={{color:"orangered", letterSpacing:1.8,marginTop:10}}>{new Date(moonset * 1000).toLocaleTimeString()}</Text>
+                   </View>               
+                </View>
 
-                    </View>
+
+                <View>
+                    <Text>Températures</Text>
+                    <FlatList
+                        data={temp}
+                        horizontal
+                        showsHorizontalScrollIndicator = {false}
+                        keyExtractor = {item => `${item[0]}`}
+                        renderItem ={ ({item}) => <Temperature item={item} />}
+                    />
+                    <Text>Doudou</Text>
                 </View>
 
 
@@ -97,31 +115,18 @@ const styles = StyleSheet.create({
 
 
     viewBody:{
-        backgroundColor: "yellow",
         paddingHorizontal: 10,
         paddingVertical: 20
     },
     viewSunMoon:{
-        backgroundColor: 'greenyellow',
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'space-around',
 
     },
-    viewSun:{
-        flex:1,
-        height: fullHeight,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent:"space-evenly",
-        alignItems: "center"
-    },
-    viewMoon:{
-        flex:1,
-        height: fullHeight,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent:"space-evenly",
-        alignItems: "center"
-    },
+    simpleView:{
+        display:'flex',
+        flexDirection:"column",
+        alignItems:"center"
+    }
 
 })
