@@ -44,8 +44,8 @@ const HomeScreen = ({navigation}) => {
         try{
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=14.732386&units=metric&lon=-17.432757&lang=fr&appid=${KEY_API}`);
             const myData = await response.data;
-            console.log(myData.current.temp)
-            console.log(myData.current.weather[0].description)
+            // console.log(myData.current.temp)r
+            // console.log(myData.current.weather[0].description)
             setDatasCountry(myData);
         }
         catch(e){
@@ -57,8 +57,8 @@ const HomeScreen = ({navigation}) => {
         getDatas();
     },[])
 
-    console.log(datasCountry)
-    console.log(datasCountry.current)
+    // console.log(datasCountry)
+    // console.log(datasCountry.current)
     if(datasCountry.length == 0){
         return <SafeAreaView style={HomeStyle.LoaderSafeView}>
                     <ActivityIndicator size={50} color="orangered"  />

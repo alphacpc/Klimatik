@@ -1,101 +1,125 @@
-import React, { useState} from 'react';
-import { View, StyleSheet ,Text, SafeAreaView, TextInput , ScrollView, Dimensions} from 'react-native';
+import React, { useState, useEffect} from 'react';
+import axios from 'axios';
+import KEY_API from './../constants/Secret';
+
+import { View, StyleSheet ,Text, SafeAreaView, ActivityIndicator,TextInput , ScrollView, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+
+
+    
+const shortList = [
+    {
+        name:"Sao Paulo",
+        code:"BR",
+        lat: -23.533773,
+        log: -46.625290,
+    },  
+    {
+        name:"New York",
+        code:"USA",
+        lat: 40.713051,
+        log: -74.007233,
+    },
+    {
+        name:"Lagos",
+        code:"NG",
+        lat: 6.451140,
+        log: 3.388400,
+    },
+    {
+        name:"Londres",
+        code:"UK",
+        lat: 51.507351,
+        log: -0.127758,
+    },
+    {
+        name:"Moscou",
+        code:"RU",
+        lat: 55.644466,
+        log: 37.395744,
+    },
+    {
+        name:"New Dehli",
+        code:"IN", 
+        lat: 28.644800,
+        log: 77.216721,
+    },
+    {
+        name:"Los Angeles",
+        code:"USA",
+        lat: 34.052235,
+        log: -118.243683,
+    },
+    {
+        name:"Seoul",
+        code:"KR",
+        lat: 37.532600,
+        log: 127.024612,
+    },
+] 
 
 
 
 const SearchScreen = ({navigation}) => {
 
-    const countryList = [1,2,3,4,5,6,7,8]
-    
-
-    
-
-    const shortList = [
-        {
-            name:"Sao Paulo",
-            code:"BR",
-            lat: -23.533773,
-            log: -46.625290,
-        },  
-        {
-            name:"New York",
-            code:"USA",
-            lat: 40.713051,
-            log: -74.007233,
-        },
-        {
-            name:"Lagos",
-            code:"NG",
-            lat: 6.451140,
-            log: 3.388400,
-        },
-        {
-            name:"Londres",
-            code:"UK",
-            lat: 51.507351,
-            log: -0.127758,
-        },
-        {
-            name:"Moscou",
-            code:"RU",
-            lat: 55.644466,
-            log: 37.395744,
-        },
-        {
-            name:"New Dehli",
-            code:"IN",
-            lat: 28.644800,
-            log: 77.216721,
-        },
-        {
-            name:"Los Angeles",
-            code:"USA",
-            lat: 34.052235,
-            log: -118.243683,
-        },
-        {
-            name:"Seoul",
-            code:"KR",
-            lat: 37.532600,
-            log: 127.024612,
-        },
-    ] 
     const [valInput, setValInput] = useState("");
+    const [datasCountry, setDatasCountry] = useState([]);
+    const [loaded, setLoaded] = useState(true);
 
-   
 
-    //console.log(valInput)
+    const getDataByCountry= async (item) => {
+        try{
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&units=metric&lon=${item.log}&lang=fr&appid=${KEY_API}`);
+            const data = await response.data;
+            console.log("*************Debut***********")
+            console.log(data.current)
+            setDatasCountry(data.current);
+            setLoaded(false)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        shortList.map((item)=> getDataByCountry(item))
+    }, [])
 
     return (
-        <ScrollView style={styles.ScrollContainer} showsVerticalScrollIndicator={false}>
-            
-            <View style={styles.ViewInputText}>
-                <Icon   name="search" size={20} 
-                        color='orange'
-                        onPress={()=> navigation.navigate('ResultScreen',{country:valInput})}/>
-                <TextInput style={styles.ForTextInput} value={valInput} onChangeText={setValInput} placeholder="Entrer une ville ..."/>
-            </View>
-
-
-            <SafeAreaView style={styles.CountryContainer}>
-                {countryList.map( (value, index) => <View key={index} style={styles.SingleCountryView}>
-                    <View style={styles.Box1}>
-                        <View style={styles.BoxInfo}>
-                            <Text style={styles.TextTemp}>22°</Text>
-                            <Text style={styles.TextCity}>Dakar</Text>
-                            <Text style={styles.TextCountry}>SN</Text>
-                        </View>
-                        <Icon name="sun" size={80} color="orangered"/>
-                    </View>
-
-                    <View style={styles.Box2}>
-                        <View style={styles.TextIcon}><Icon name="cloud-rain" size={20} style={{marginRight:10}}/><Text>17%</Text></View>
-                        <View style={styles.TextIcon}><Icon name="wind" size={20} style={{marginRight:10}}/><Text>7km/h</Text></View>
-                    </View>
-                </View>)}
+        (loaded)? (
+            <SafeAreaView style={styles.LoaderSafeView}>
+                    <ActivityIndicator size={50} color="orangered"  />
             </SafeAreaView>
-        </ScrollView>
+        ) : (
+            <ScrollView style={styles.ScrollContainer} showsVerticalScrollIndicator={false}>
+            
+                <View style={styles.ViewInputText}>
+                    <Icon   name="search" size={20} 
+                            color='orange'
+                            onPress={()=> navigation.navigate('ResultScreen',{country:valInput})}/>
+                    <TextInput style={styles.ForTextInput} value={valInput} placeholder="Entrer une ville ..."/>
+                </View>
+
+
+                <SafeAreaView style={styles.CountryContainer}>
+                    {shortList.map( (item, index) => <View key={index} style={styles.SingleCountryView}>
+                        <View style={styles.Box1}>
+                            <View style={styles.BoxInfo}>
+                                <Text style={styles.TextTemp}>{datasCountry[index].temp}°</Text>
+                                <Text style={styles.TextCity}>{item.name}</Text>
+                                <Text style={styles.TextCountry}>{item.code}</Text>
+                            </View>
+                            <Icon name="sun" size={80} color="orangered"/>
+                        </View>
+
+                        <View style={styles.Box2}>
+                            <View style={styles.TextIcon}><Icon name="cloud-rain" size={20} style={{marginRight:10}}/><Text>{datasCountry[index].humidity}17%</Text></View>
+                            <View style={styles.TextIcon}><Icon name="wind" size={20} style={{marginRight:10}}/><Text>{datasCountry[index].pressure}km/h</Text></View>
+                        </View>
+                    </View>)}
+                </SafeAreaView>
+            </ScrollView>
+        )
     )
 }
 
@@ -170,5 +194,13 @@ const styles = StyleSheet.create({
     },
     TextCountry:{
         color:'grey'
+    },
+
+
+    LoaderSafeView:{
+        backgroundColor: '#002366',
+        height: Dimensions.get('screen').height,
+        display:'flex',
+        justifyContent:'center'
     }
 })
