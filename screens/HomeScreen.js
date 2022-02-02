@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, ActivityIndicator, Image ,ImageBackground, ScrollView, FlatList} from 'react-native';
 import imgIcon from './../assets/Images/Icon.png';
-import Icon from 'react-native-vector-icons/Feather'
+import Icon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import KEY_API from './../constants/Secret';
 
@@ -36,7 +36,7 @@ const HomeScreen = ({navigation}) => {
                         <Text style={HomeStyle.NextDayItemText, {color:'grey',marginLeft:10}}>{Math.round(item.temp.max)}°</Text>
                     </View>
 
-                    <Icon name="arrow-right-circle" onPress={()=> { navigation.navigate("DailyScreen", item) }} style={{color:'orangered'}} size={20}/>
+                    <Icon name="arrow-right-circle" onPress={()=> { navigation.navigate("DailyScreen", item ) }} style={{color:'orangered'}} size={20}/>
                 </View>                    
     }
 
@@ -65,7 +65,6 @@ const HomeScreen = ({navigation}) => {
         </SafeAreaView>
     }
 
-    const colors = ['#022E57', '#293B5F','#002366']
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: '#002366'}} >

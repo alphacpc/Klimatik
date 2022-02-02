@@ -1,21 +1,19 @@
 import React from 'react'
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, ActivityIndicator, Image ,ImageBackground, ScrollView, FlatList} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Dimensions ,ImageBackground, ScrollView, FlatList} from 'react-native';
 import imgIcon from './../assets/Images/Icon.png';
 import Icon from 'react-native-vector-icons/Feather';
 
+
+
 const fullWidth = Dimensions.get('screen').width;
-const fullHeight = Dimensions.get('screen').height * 0.2;
 
 const DailyScreen = ({navigation, route}) => {
 
-
-    const {humidity, moonrise, moonset, pressure, sunrise, sunset, temp, weather ,wind_deg, wind_gust, wind_speed}  = route.params;
-    const ImageUrl = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
-
-    console.log(route.params);
+    const {humidity, moonset, pressure, sunrise, sunset, temp, weather, dt ,wind_deg, wind_speed}  = route.params;
+    let days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
     const Temperature = ({item}) => {
-        return <View style={styles.viewTemp}>
+        return <View style={styles.viewTemp} key={item}>
             <Text style={styles.textValue}>{Math.round(temp[item])}</Text>
             <Text style={styles.textLabel}>{item}</Text>
         </View>
@@ -27,12 +25,11 @@ const DailyScreen = ({navigation, route}) => {
                 <View>
                     <View style={{display: 'flex', flexDirection: 'row', alignItems:'center', marginBottom: 20}}>
                         <Icon name="arrow-left" onPress={()=> { navigation.navigate("HomeScreen") }} style={{color:'orangered' ,marginRight: 10}} size={20}/>
-                        <Text style={{color: "#fff", fontWeight:"bold", letterSpacing: 1}}>Dakar (Jeudi)</Text>
+                        <Text style={{color: "#fff", fontWeight:"bold", letterSpacing: 1}}>Dakar ({days[new Date(dt * 1000).getDay()]})</Text>
                     </View>
 
                     <View style={styles.DetailsHeader}>
                         <Text style={{fontSize: 80,fontWeight:'normal',marginVertical: 0,color:'white'}}>18°C</Text>
-                        {/* <Image  source={{uri: ImageUrl}} style={{width: 80, height: 80}}/> */}
                         <Text style={styles.textDescription}>{weather[0].description}</Text>
                     </View>
                 </View>
@@ -60,8 +57,8 @@ const DailyScreen = ({navigation, route}) => {
                 </View>
 
 
-                <View>
-                    <Text>Températures</Text>
+                <View style={styles.viewTemps}>
+                    <Text style={styles.textLabelView}>Températures</Text>
                     <FlatList
                         data={Object.keys(temp)}
                         horizontal
@@ -72,6 +69,31 @@ const DailyScreen = ({navigation, route}) => {
                     />
                 </View>
 
+                <Text style={styles.textLabelView}>Vent</Text>
+                <View style={styles.viewWind}>
+                    <Icon name="wind" onPress={()=> { navigation.navigate("HomeScreen") }} style={{color:'white' ,marginRight: 10}} size={80}/>
+                    <View style={styles.viewWindInfos}>
+                        <View style={styles.viewWindItem}>
+                            <Text style={styles.textWindLabel}>Vitesse du vent</Text>
+                            <Text style={styles.textWindValue}>{Math.round(wind_speed)} km/h</Text>
+                        </View>
+                        <View style={styles.viewWindItem}>
+                            <Text style={styles.textWindLabel}>degré du vent</Text>
+                            <Text style={styles.textWindValue}>{wind_deg} deg</Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.viewHumidity}>          
+                    <View style={styles.viewHumidityItem}>
+                        <Icon name="cloud-rain" size={40} style={{marginRight: 4, color:"white"}}/>
+                        <Text style={styles.textHumidity}>{humidity}%</Text>
+                    </View>
+                    <View style={styles.viewHumidityItem}>
+                        <Icon name="clock" size={40} style={{marginRight: 4, color:"white"}}/>
+                        <Text style={styles.textHumidity}>{pressure / 1000}mBar</Text>
+                    </View>
+                </View>
 
 
             </SafeAreaView>
@@ -135,7 +157,8 @@ const styles = StyleSheet.create({
         display:"flex",
         flexDirection: "column",
         alignItems: "center",
-        marginRight:20
+        marginRight:30
+
     },
     textValue:{
         backgroundColor:'#fff',
@@ -149,6 +172,56 @@ const styles = StyleSheet.create({
     textLabel:{
         color: "#fff",
         fontSize: 20,
+    },
+
+
+    viewTemps:{
+        paddingVertical: 30
+    },
+    textLabelView:{
+        color:"white",
+        fontSize:26,
+        fontWeight:"bold",
+        letterSpacing:1
+    },
+
+
+    viewWind:{ 
+        display: "flex",
+        flexDirection: "row",
+        alignItems:"center",
+        justifyContent:"space-between",
+        paddingVertical:10,
+        paddingHorizontal:10
+    },
+    viewWindInfos:{
+        width: fullWidth / 1.8,
+    },
+    viewWindItem:{
+        paddingVertical:15,
+    },
+    textWindLabel:{
+        fontSize:20,
+        marginBottom:10,
+        color:"white"
+    },
+    textWindValue:{
+        fontSize:15,
+        color:"orangered"
+    },
+
+
+
+    viewHumidityItem:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        paddingVertical:20,
+        paddingHorizontal:15
+    },
+    textHumidity:{
+        color:"white",
+        fontSize:18
     }
 
 })
