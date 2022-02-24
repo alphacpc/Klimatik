@@ -46,14 +46,16 @@ const DailyScreen = ({navigation, route}) => {
                         <Icon name="sunrise" size={35} color="orangered"/>
                         <Text style={{color:"orangered",letterSpacing:1.8, marginTop:10}}>{new Date(sunrise * 1000).toLocaleTimeString()}</Text>
                     </View>
-                    <View style={styles.simpleView}>
-                        <Icon name="sunset" size={35} color="orangered"/>
-                        <Text style={{color:"orangered", letterSpacing:1.8,marginTop:10}}>{new Date(sunset * 1000).toLocaleTimeString()}</Text>
-                   </View>
+                    
                    <View style={styles.simpleView}>
                         <Icon name="moon" size={35} color="orangered"/>
                         <Text style={{color:"orangered", letterSpacing:1.8,marginTop:10}}>{new Date(moonset * 1000).toLocaleTimeString()}</Text>
-                   </View>               
+                   </View>
+
+                   <View style={styles.simpleView}>
+                        <Icon name="sunset" size={35} color="orangered"/>
+                        <Text style={{color:"orangered", letterSpacing:1.8,marginTop:10}}>{new Date(sunset * 1000).toLocaleTimeString()}</Text>
+                   </View>              
                 </View>
 
 
@@ -211,17 +213,25 @@ const styles = StyleSheet.create({
     },
 
 
-
-    viewHumidityItem:{
+    viewHumidity:{
         display:"flex",
         flexDirection:"row",
         justifyContent:"space-between",
         paddingVertical:20,
         paddingHorizontal:15
     },
+    viewHumidityItem:{
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"space-between",
+        alignItems: "center",
+        paddingVertical:20,
+        paddingHorizontal:15
+    },
     textHumidity:{
         color:"white",
-        fontSize:18
+        fontSize:18,
+        marginTop: 20
     }
 
 })
