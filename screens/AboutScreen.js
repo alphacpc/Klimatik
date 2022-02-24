@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         marginBottom: 10,
         textTransform: "uppercase",
-        color:'#fff'
+        color:'orangered'
     },
     job_country:{
         fontSize:20,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 
 
     description:{
-        fontSize: 14,
+        fontSize: 20,
         textAlign: "center",
         letterSpacing:1,
         marginBottom:20,

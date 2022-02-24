@@ -22,7 +22,7 @@ const BottomNavigation = () => {
         }}>
 
             <Tab.Screen name="HomeScreen" component={HomeScreen} options={{ tabBarIcon: ({color})=> <Icon name="home" size={18} color={color}/> }}/>
-            <Tab.Screen name="SearchScreen" component={SearchScreen} options={{ tabBarIcon: ({color})=> <Icon name="search" size={18} color={color}/> }}/>
+            {/* <Tab.Screen name="SearchScreen" component={SearchScreen} options={{ tabBarIcon: ({color})=> <Icon name="search" size={18} color={color}/> }}/> */}
             <Tab.Screen name="LocationScreen" component={LocationScreen} options={{ tabBarIcon: ({color})=> <Icon name="map-pin" size={18} color={color}/> }}/>
             <Tab.Screen name="AboutScreen" component={AboutScreen} options={{ tabBarIcon: ({color})=> <Icon name="user" size={18} color={color}/> }}/>
 

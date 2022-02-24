@@ -62,19 +62,19 @@ const shortList = [
 
 const SearchScreen = ({navigation}) => {
 
-    const [valInput, setValInput] = useState("");
+    const [valInput] = useState("");
     const [datasCountry, setDatasCountry] = useState([]);
     const [loaded, setLoaded] = useState(true);
+    const tabs = []
 
 
     const getDataByCountry= async (item) => {
         try{
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${item.lat}&units=metric&lon=${item.log}&lang=fr&appid=${KEY_API}`);
             const data = await response.data;
-            console.log("*************Debut***********")
-            console.log(data.current)
+            tabs.push(data.current)
             setDatasCountry(data.current);
-            setLoaded(false)
+            console.log(tabs.length)
         }
         catch(e){
             console.log(e);
@@ -82,8 +82,12 @@ const SearchScreen = ({navigation}) => {
     }
 
     useEffect(() => {
-        shortList.map((item)=> getDataByCountry(item))
-    }, [])
+
+        shortList.map((item)=> getDataByCountry(item));
+
+    }, [loaded])
+
+    console.log(loaded)
 
     return (
         (loaded)? (
@@ -102,21 +106,21 @@ const SearchScreen = ({navigation}) => {
 
 
                 <SafeAreaView style={styles.CountryContainer}>
-                    {shortList.map( (item, index) => <View key={index} style={styles.SingleCountryView}>
+                    { shortList.map( (item, index) => <View key={index} style={styles.SingleCountryView}>
                         <View style={styles.Box1}>
                             <View style={styles.BoxInfo}>
-                                <Text style={styles.TextTemp}>{datasCountry[index].temp}°</Text>
+                                <Text style={styles.TextTemp}>{Math.round(datasCountry.temp)}°C</Text>
                                 <Text style={styles.TextCity}>{item.name}</Text>
                                 <Text style={styles.TextCountry}>{item.code}</Text>
                             </View>
-                            <Icon name="sun" size={80} color="orangered"/>
+                            <Icon name="sun" size={60} color="orangered"/>
                         </View>
 
                         <View style={styles.Box2}>
-                            <View style={styles.TextIcon}><Icon name="cloud-rain" size={20} style={{marginRight:10}}/><Text>{datasCountry[index].humidity}17%</Text></View>
-                            <View style={styles.TextIcon}><Icon name="wind" size={20} style={{marginRight:10}}/><Text>{datasCountry[index].pressure}km/h</Text></View>
+                            <View style={styles.TextIcon}><Icon name="cloud-rain" size={20} style={{marginRight:10}}/><Text>{datasCountry.humidity}17%</Text></View>
+                            <View style={styles.TextIcon}><Icon name="wind" size={20} style={{marginRight:10}}/><Text>{datasCountry.pressure}km/h</Text></View>
                         </View>
-                    </View>)}
+                    </View>) }
                 </SafeAreaView>
             </ScrollView>
         )
